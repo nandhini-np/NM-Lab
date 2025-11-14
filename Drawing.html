@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Drawing App</title>
+</head>
+<body>
+  <h2>Simple Drawing Application</h2>
+
+  <canvas id="board" width="400" height="300" 
+          style="border:1px solid black;"></canvas><br><br>
+
+  <button onclick="clearBoard()">Clear</button>
+
+<script>
+let canvas = document.getElementById("board");
+let ctx = canvas.getContext("2d");
+let drawing = false;
+
+canvas.addEventListener("mousedown", () => drawing = true);
+canvas.addEventListener("mouseup", () => drawing = false);
+canvas.addEventListener("mousemove", draw);
+
+function draw(e) {
+  if (!drawing) return;
+  ctx.lineWidth = 3;
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+}
+
+function clearBoard() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+</script>
+
+</body>
+</html>
