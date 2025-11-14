@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Translator</title>
+</head>
+<body>
+  <h2>Language Translator</h2>
+
+  <textarea id="text" placeholder="Enter text"></textarea><br><br>
+
+  <select id="lang">
+    <option value="en|hi">English → Hindi</option>
+    <option value="en|ta">English → Tamil</option>
+    <option value="hi|en">Hindi → English</option>
+    <option value="ta|en">Tamil → English</option>
+  </select><br><br>
+
+  <button onclick="translateText()">Translate</button>
+
+  <h3>Output:</h3>
+  <p id="result"></p>
+
+<script>
+function translateText() {
+  let text = document.getElementById("text").value;
+  let lang = document.getElementById("lang").value;
+
+  fetch(`https://api.mymemory.translated.net/get?q=${text}&langpair=${lang}`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("result").innerText =
+        data.responseData.translatedText;
+    });
+}
+</script>
+
+</body>
+</html>
