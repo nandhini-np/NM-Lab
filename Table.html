@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dynamic Table</title>
+</head>
+<body>
+
+<h2>Sortable & Filterable Table</h2>
+
+<input type="text" id="search" placeholder="Search..." 
+       onkeyup="filterTable()"><br><br>
+
+<table border="1" id="dataTable">
+  <tr>
+    <th onclick="sortTable(0)">Name</th>
+    <th onclick="sortTable(1)">Age</th>
+  </tr>
+  <tr><td>Asha</td><td>21</td></tr>
+  <tr><td>Rahul</td><td>19</td></tr>
+  <tr><td>Vijay</td><td>23</td></tr>
+</table>
+
+<script>
+function filterTable() {
+  let input = document.getElementById("search").value.toLowerCase();
+  let rows = document.querySelectorAll("#dataTable tr");
+
+  rows.forEach((row, i) => {
+    if (i === 0) return;
+    let text = row.innerText.toLowerCase();
+    row.style.display = text.includes(input) ? "" : "none";
+  });
+}
+
+function sortTable(col) {
+  let table = document.getElementById("dataTable");
+  let rows = Array.from(table.rows).slice(1);
+
+  rows.sort((a, b) =>
+    a.cells[col].innerText.localeCompare(b.cells[col].innerText)
+  );
+
+  rows.forEach(r => table.appendChild(r));
+}
+</script>
+
+</body>
+</html>
