@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Photo Editor</title>
+</head>
+<body>
+
+<h2>Simple Photo Filter</h2>
+
+<input type="file" id="upload"><br><br>
+
+<img id="photo" width="300"><br><br>
+
+<label>Brightness: </label>
+<input type="range" id="bri" min="0" max="200" value="100"
+       oninput="applyFilter()"><br><br>
+
+<label>Contrast: </label>
+<input type="range" id="con" min="0" max="200" value="100"
+       oninput="applyFilter()"><br><br>
+
+<script>
+document.getElementById("upload").onchange = e => {
+  document.getElementById("photo").src = URL.createObjectURL(e.target.files[0]);
+};
+
+function applyFilter() {
+  let b = document.getElementById("bri").value;
+  let c = document.getElementById("con").value;
+  document.getElementById("photo").style.filter =
+    `brightness(${b}%) contrast(${c}%)`;
+}
+</script>
+
+</body>
+</html>
