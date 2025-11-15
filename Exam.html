@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Online Exam - Single Page</title>
+  <style>
+    body { background: black; color: cyan; font-family: Arial, sans-serif; padding: 20px; }
+    .result { margin-top: 20px; padding: 12px; border-radius: 6px; }
+    .good { color: lime; }
+    .bad { color: red; }
+  </style>
+</head>
+<body>
+  <h2 align="center">ONLINE EXAM</h2><hr>
+
+  <form id="examForm">
+    1. Computers must have?<br>
+    <input type="radio" name="q1" value="OS"> OS
+    <input type="radio" name="q1" value="App"> App<br><br>
+
+    2. PC means?<br>
+    <input type="radio" name="q2" value="Private"> Private
+    <input type="radio" name="q2" value="Personal"> Personal<br><br>
+
+    3. C developed by?<br>
+    <input type="radio" name="q3" value="Ritchie"> Ritchie
+    <input type="radio" name="q3" value="Babbage"> Babbage<br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+
+  <div id="output"></div>
+
+<script>
+document.getElementById('examForm').addEventListener('submit', function(e){
+  e.preventDefault(); // don't submit to server
+
+  // correct answers
+  const answers = { q1: 'OS', q2: 'Personal', q3: 'Ritchie' };
+
+  // read selected values
+  const form = e.target;
+  const q1 = form.q1.value || null;
+  const q2 = form.q2.value || null;
+  const q3 = form.q3.value || null;
+
+  // basic validation: ensure each question answered
+  if (!q1 || !q2 || !q3) {
+    alert('Please answer all questions before submitting.');
+    return;
+  }
+
+  // scoring: 5 marks per correct answer
+  let marks = 0;
+  if (q1.toLowerCase() === answers.q1.toLowerCase()) marks += 5;
+  if (q2.toLowerCase() === answers.q2.toLowerCase()) marks += 5;
+  if (q3.toLowerCase() === answers.q3.toLowerCase()) marks += 5;
+
+  const out = document.getElementById('output');
+  out.innerHTML = '<div class="result"><h3>Total Marks: ' + marks + '</h3>'
+                + (marks >= 10 ? '<p class="good">Great Job!</p>' : '<p class="bad">Try Again!</p>')
+                + '</div>';
+});
+</script>
+
+</body>
+</html>
