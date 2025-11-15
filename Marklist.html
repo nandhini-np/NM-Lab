@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Student Marklist</title>
+  <style>
+    body { text-align:center; color:blue; font-family:Courier; padding:20px; }
+    table { margin:auto; border-collapse:collapse; }
+    th,td { border:1px solid blue; padding:6px; }
+    .msg { margin-top:12px; color:darkred; }
+    .controls { margin-top:10px; }
+  </style>
+</head>
+<body>
+  <h2>STUDENT MARKLIST</h2><hr>
+
+  <form id="frm">
+    Enter Reg.No: <input type="text" id="rno" autocomplete="off">
+    <input type="submit" value="Show Result">
+  </form>
+
+  <div class="controls">
+    <button id="loadSample">Load sample data</button>
+    <button id="clearData">Clear stored data</button>
+  </div>
+
+  <div id="output"></div>
+
+<script>
+/*
+  In-memory "table" (you can edit/add more records here)
+  This replaces the Oracle table for the lab/demo.
+*/
+let students = [
+  { rno: 1, name: 'Abhi', maths: 90, science: 85 },
+  { rno: 2, name: 'Banu', maths: 78, science: 88 }
+];
+
+// Utility to render result
+function showResult(student){
+  const out = document.getElementById('output');
+  out.innerHTML = `
+    <h3>Reg.No: ${student.rno}</h3>
+    <h3>Name: ${student.name}</h3>
+    <table>
+      <tr><th>Subject</th><th>Mark</th></tr>
+      <tr><td>Maths</td><td>${student.maths}</td></tr>
+      <tr><td>Science</td><td>${student.science}</td></tr>
+    </table>
+    <br><a href="#" id="backLink">Back</a>
+  `;
+  // back link clears output and input
+  document.getElementById('backLink').addEventListener('click', function(e){
+    e.preventDefault();
+    document.getElementById('output').innerHTML = '';
+    document.getElementById('rno').value = '';
+  });
+}
+
+// form submit handler
+document.getElementById('frm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const r = document.getElementById('rno').value.trim();
+  if(!r){ alert('Please enter a reg. no.'); return; }
+  const num = parseInt(r, 10);
+  if(isNaN(num)){ alert('Reg. no must be numeric'); return; }
+
+  // search in students array
+  const rec = students.find(s => s.rno === num);
+  if(rec) showResult(rec);
+  else document.getElementById('output').innerHTML = '<h3 class="msg">No Record Found!</h3><br><a href="#" id="back2">Back</a>';
+});
+
+// load sample data into localStorage (optional) and into in-memory array
+document.getElementById('loadSample').addEventListener('click', function(){
+  // Put sample data into localStorage so Option B can use it too
+  localStorage.setItem('student_db', JSON.stringify(students));
+  alert('Sample data loaded into memory/localStorage.');
+});
+
+// clear stored localStorage
+document.getElementById('clearData').addEventListener('click', function(){
+  localStorage.removeItem('student_db');
+  alert('localStorage cleared (student_db removed).');
+});
+</script>
+
+</body>
+</html>
